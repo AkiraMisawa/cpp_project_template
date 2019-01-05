@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+
+# get rid of the warning you would have seen when using cygwin
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 project(alpha)
 
+# append user defined cmake module
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 enable_testing()
+# include the gmock module we created, which enabels us to develop test driven.
 include(gmock)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
@@ -22,13 +26,14 @@ if (NOT CONFIGURED_ONCE)
         CACHE STRING "Flags used by the compiler during all build types." FORCE)
 endif()
 
+# include serach path is always set to be here
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-# testing environment
+# testing environment. you can create an executable here.
 add_subdirectory(sandbox)
 # source code directory
 add_subdirectory(src)
-# unit test directory
+# unit test directory. CTest is invoked automatically after building project.
 add_subdirectory(test)
 
 
